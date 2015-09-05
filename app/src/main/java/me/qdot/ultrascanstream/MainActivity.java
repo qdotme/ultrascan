@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity  implements SensorEventListe
     private Sensor mAccelerometer;
     private float mSensorX;
     private float mSensorY;
+    private float mSensorZ;
     Socket pcserver = null;
     DataOutputStream os = null;
     DataInputStream is = null;
@@ -166,8 +167,11 @@ public class MainActivity extends AppCompatActivity  implements SensorEventListe
          */
         mSensorX = event.values[0];
         mSensorY = event.values[1];
+        mSensorZ = event.values[2];
+
         String sensorsX = new Float(mSensorX).toString();
         String sensorsY = new Float(mSensorY).toString();
+
 /*
         TextView view = (TextView) findViewById(R.id.yval);
         view.setText(sensorsX+"     "+sensorsY);
@@ -180,8 +184,11 @@ public class MainActivity extends AppCompatActivity  implements SensorEventListe
         if (pcserver != null && os != null && is != null) {
             try {
                 //send the X sensor data
-                os.writeFloat(mSensorsX);
-                //os.writeBytes(sensorsY);
+                os.writeFloat(mSensorX);
+                os.writeFloat(mSensorY);
+                os.writeFloat(mSensorZ);
+                os.writeFloat(Float.NaN);
+
                 // clean up:
                 // close the output stream
                 // close the input stream
